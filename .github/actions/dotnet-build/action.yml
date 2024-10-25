@@ -45,11 +45,11 @@ runs:
         AL_VERSION: ${{ inputs.al-version-number }}
         LC_VERSION: ${{ inputs.asset-version-number }}
       run:
-        (Get-Content BusinessCentral.LinterCop/AssemblyInfo.cs) -replace 'Version\("([\d\.]+)"\)]',
+        (Get-Content CustomCodeCop/AssemblyInfo.cs) -replace 'Version\("([\d\.]+)"\)]',
         ("Version(""" + ($env:LC_VERSION
-        -replace "v","") + """)]") | Out-File BusinessCentral.LinterCop/AssemblyInfo.cs
+        -replace "v","") + """)]") | Out-File CustomCodeCop/AssemblyInfo.cs
 
-        (Get-Content BusinessCentral.LinterCop/AssemblyInfo.cs) -replace 'AssemblyTitle\("([^"]*)"\)', "AssemblyTitle(`"AL-$env:AL_VERSION`")" | Out-File BusinessCentral.LinterCop/AssemblyInfo.cs
+        (Get-Content CustomCodeCop/AssemblyInfo.cs) -replace 'AssemblyTitle\("([^"]*)"\)', "AssemblyTitle(`"AL-$env:AL_VERSION`")" | Out-File CustomCodeCop/AssemblyInfo.cs
 
     - name: Populate Feature Flags
       id: get-feature-flags
@@ -59,19 +59,19 @@ runs:
 
     - name: Build
       shell: pwsh
-      run: dotnet build BusinessCentral.LinterCop /p:FeatureFlags=${{ steps.get-feature-flags.outputs.feature-flags }} --configuration Release
+      run: dotnet build CustomCodeCop /p:FeatureFlags=${{ steps.get-feature-flags.outputs.feature-flags }} --configuration Release
 
     - name: Cache NuGet packages
       uses: actions/cache@v4
       with:
         path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/BusinessCentral.LinterCop.Test/*.csproj') }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/CustomCodeCop.Test/*.csproj') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
 
     - name: Test
       shell: pwsh
-      run: dotnet test BusinessCentral.LinterCop.Test /p:FeatureFlags=${{ steps.get-feature-flags.outputs.feature-flags }}
+      run: dotnet test CustomCodeCop.Test /p:FeatureFlags=${{ steps.get-feature-flags.outputs.feature-flags }}
 
     - name: Upload build artifact
       id: upload-build-asset
@@ -79,7 +79,7 @@ runs:
       if: ${{ inputs.asset-publish == 'true' }}
       with:
         name: ${{ inputs.asset-name }}
-        path: BusinessCentral.LinterCop/bin/Release/netstandard2.1/BusinessCentral.LinterCop.dll
+        path: CustomCodeCop/bin/Release/netstandard2.1/CustomCodeCop.dll
         compression-level: 0 # no compression
 
     ### Upload Asset as Latest
@@ -88,8 +88,8 @@ runs:
       uses: actions/upload-artifact@v4
       if: ${{ inputs.asset-publish == 'true' && inputs.al-latest == 'true' }}
       with:
-        name: BusinessCentral.LinterCop.dll
-        path: BusinessCentral.LinterCop/bin/Release/netstandard2.1/BusinessCentral.LinterCop.dll
+        name: CustomCodeCop.dll
+        path: CustomCodeCop/bin/Release/netstandard2.1/CustomCodeCop.dll
         compression-level: 0 # no compression
 
     ### Upload Asset as Pre-Release
@@ -98,6 +98,6 @@ runs:
       uses: actions/upload-artifact@v4
       if: ${{ inputs.asset-publish == 'true' && inputs.al-prerelease == 'true' }}
       with:
-        name: BusinessCentral.LinterCop.AL-PreRelease.dll
-        path: BusinessCentral.LinterCop/bin/Release/netstandard2.1/BusinessCentral.LinterCop.dll
+        name: CustomCodeCop.AL-PreRelease.dll
+        path: CustomCodeCop/bin/Release/netstandard2.1/CustomCodeCop.dll
         compression-level: 0 # no compression
