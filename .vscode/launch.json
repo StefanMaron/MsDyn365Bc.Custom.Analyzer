@@ -7,9 +7,7 @@
         {
             "name": "Debug CustomCodeCop",
             "type": "coreclr",
-            "request": "attach",
-            "preLaunchTask": "build",
-            "processName": "Microsoft.Dynamics.Nav.EditorServices.Host.exe"
+            "request": "attach"
         }
     ]
 }

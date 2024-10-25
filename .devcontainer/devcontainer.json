@@ -8,7 +8,8 @@
       "settings": {},
       "extensions": [
         "ms-dotnettools.csharp",
-        "ms-dynamics-smb.al"
+        "ms-dynamics-smb.al",
+        "ms-dotnettools.csdevkit"
       ]
     }
   }

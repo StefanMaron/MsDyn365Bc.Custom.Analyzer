@@ -9,11 +9,11 @@
             "type": "shell",
             "args": [
                 "build",
+                "CustomCodeCop.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "group": "build",
-            "problemMatcher": "$msCompile",
             "presentation": {
                 "reveal": "silent",
                 "revealProblems": "onProblem",
@@ -40,18 +40,19 @@
                 "build_dotnet",
                 "run_code"
             ],
-            "dependsOrder": "sequence"
+            "dependsOrder": "sequence",
+            "problemMatcher": []
         },
         {
             "label": "LoadALLanguageDependency",
             "type": "shell",
-            "command": "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process; ./.vscode/LoadALLanguage.ps1",
+            "command": "pwsh ./.vscode/LoadALLanguage.ps1",
             "problemMatcher": []
         },
         {
             "label": "Prep Codespace",
             "type": "shell",
-            "command": "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process; ./.devcontainer/ContainerPrep.ps1",
+            "command": "pwsh ./.devcontainer/ContainerPrep.ps1",
             "problemMatcher": []
         }
     ]
