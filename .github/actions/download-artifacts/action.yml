@@ -12,12 +12,12 @@ runs:
     - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
-        path: ${{ github.workspace }}\DownloadBuildArtifacts
+        path: ${{ github.workspace }}/DownloadBuildArtifacts
 
     - name: Rename artifacts
       shell: pwsh
       env:
-        SOURCE_PATH: ${{ github.workspace }}\DownloadBuildArtifacts
+        SOURCE_PATH: ${{ github.workspace }}/DownloadBuildArtifacts
         TARGET_PATH: ${{ inputs.path }}
       run: |
         # Get list of artifacts files
