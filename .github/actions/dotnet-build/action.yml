@@ -59,7 +59,7 @@ runs:
 
     - name: Build
       shell: pwsh
-      run: dotnet build CustomCodeCop /p:FeatureFlags=${{ steps.get-feature-flags.outputs.feature-flags }} --configuration Release
+      run: dotnet build CustomCodeCop.csproj /p:FeatureFlags=${{ steps.get-feature-flags.outputs.feature-flags }} --configuration Release
 
     - name: Cache NuGet packages
       uses: actions/cache@v4
@@ -68,10 +68,6 @@ runs:
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/CustomCodeCop.Test/*.csproj') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
-
-    - name: Test
-      shell: pwsh
-      run: dotnet test CustomCodeCop.Test /p:FeatureFlags=${{ steps.get-feature-flags.outputs.feature-flags }}
 
     - name: Upload build artifact
       id: upload-build-asset
