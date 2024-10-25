@@ -67,7 +67,7 @@ jobs:
 
   publish:
     name: Publish
-    runs-on: windows-latest # Code signing must run on a Windows agent for Authenticode signing (dll/exe)
+    runs-on: ubuntu-latest # Code signing must run on a Windows agent for Authenticode signing (dll/exe)
     needs:
       - setup
       - build
@@ -75,11 +75,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Azure Login
+        uses: azure/login@v2
+        if: false # enable for Code signing
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Download artifacts
+        id: download-artifacts
+        uses: ./.github/actions/download-artifacts
+        with:
+          path: ${{ github.workspace }}/BuildArtifacts
+
       - name: Publish Assets
         id: upload-release-assets
         shell: pwsh
         env:
-          ARTIFACTS_PATH: ${{ github.workspace }}\BuildArtifacts
+          ARTIFACTS_PATH: ${{ github.workspace }}/BuildArtifacts
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_UPLOAD_URL: ${{ needs.setup.outputs.release-upload-url }}
         run: |
