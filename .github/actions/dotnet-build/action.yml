@@ -38,19 +38,6 @@ runs:
         asset-uri: ${{ inputs.al-asset-uri }}
         target-path: ALLanguage
 
-    - name: Set AssemblyInfo
-      shell: pwsh
-      if: ${{ inputs.asset-publish == 'true' }}
-      env:
-        AL_VERSION: ${{ inputs.al-version-number }}
-        LC_VERSION: ${{ inputs.asset-version-number }}
-      run:
-        (Get-Content CustomCodeCop/AssemblyInfo.cs) -replace 'Version\("([\d\.]+)"\)]',
-        ("Version(""" + ($env:LC_VERSION
-        -replace "v","") + """)]") | Out-File CustomCodeCop/AssemblyInfo.cs
-
-        (Get-Content CustomCodeCop/AssemblyInfo.cs) -replace 'AssemblyTitle\("([^"]*)"\)', "AssemblyTitle(`"AL-$env:AL_VERSION`")" | Out-File CustomCodeCop/AssemblyInfo.cs
-
     - name: Populate Feature Flags
       id: get-feature-flags
       uses: ./.github/actions/feature-flags
