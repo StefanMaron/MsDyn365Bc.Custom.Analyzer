@@ -6,7 +6,8 @@ on:
       - prerelease
   pull_request:
   workflow_dispatch: null
-
+permissions:
+  contents: write
 jobs:
   setup:
     name: Setup
