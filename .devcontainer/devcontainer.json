@@ -1,5 +1,5 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/dotnet",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:6.0  ",
   "features": {},
   "customizations": {
     // Configure properties specific to VS Code.
@@ -9,7 +9,8 @@
       "extensions": [
         "ms-dotnettools.csharp",
         "ms-dynamics-smb.al",
-        "ms-dotnettools.csdevkit"
+        "ms-dotnettools.csdevkit",
+        "usernamehw.errorlens"
       ]
     }
   }
