@@ -1,8 +1,8 @@
+Write-Host "Downloading the AL Language compiler"
 ./.vscode/LoadALLanguage.ps1;
 
-dotnet build CustomCodeCop.csproj
-
-$Path = Join-Path $PSScriptRoot '..' '..'
+Write-Host "Creating AL Project for debugging"
+$Path = (Get-Item $PSScriptRoot -force).parent.parent
 
 mkdir "$Path/AlDebugProject"
 mkdir "$Path/AlDebugProject/.vscode"
@@ -40,5 +40,3 @@ printf '            "maxDegreeOfParallelism": 1,\n' >> "$Path/AlDebugProject/.vs
 printf '            "parallel": false\n' >> "$Path/AlDebugProject/.vscode/settings.json"
 printf '        }\n' >> "$Path/AlDebugProject/.vscode/settings.json"
 printf '}' >> "$Path/AlDebugProject/.vscode/settings.json"
-
-code "$Path/AlDebugProject/"
